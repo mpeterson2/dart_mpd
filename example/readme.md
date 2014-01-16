@@ -13,3 +13,17 @@
 	- `sticker_file`
 3. Create all these files (they can be blank).
 4. Run the examples (MPD may need to update it's database).
+
+## The examples
+
+### arbitrary-commands.dart
+
+This allows you to enter anything into the application's stdin and it will send it to MPD. Then MPD will send a response back, and it will be printed to the screen.
+
+### adding-songs.dart
+
+This is an example of how you can add songs, tell MPD to play, and skip songs.
+
+### requesting-data.dart
+
+This is an example of how you can request some data from MPD's database.
