@@ -21,19 +21,25 @@ class MPDTalker {
     Completer<String> com = new Completer<String>();
     String data = "";
     
+    // Connect to MPD.
     Socket.connect(host, port)
       .then((Socket socket) {
+        // Write the command to MPD.
         socket.write("$cmd\n");
         
+        // Listen for MPD.
         socket.listen((List<int> chars) {
+          // Get the response.
           String line = new String.fromCharCodes(chars);
           data += line;
           
+          // Check if MPD is done sending data.
           if(_atEnd(line)) {
             socket.close();
           }
         },
         onDone: () {
+          // Finish the future.
           com.complete(data);
         });
       });
@@ -45,10 +51,10 @@ class MPDTalker {
    * Check if MPD is done sending data.
    */
   bool _atEnd(String str) {
-    return str.endsWith("OK\n"); //||
+    return str.endsWith("OK\n") ||
         // TODO This should work but it doesn't...
         //str.contains(new RegExp("ACK \[[0-9]?([0-9])@[0-9]?([0-9])\]"));
-        //str.contains("ACK [");
+        str.contains("ACK [");
   }
   
   /**
@@ -57,14 +63,21 @@ class MPDTalker {
   Future<List<String>> cmdList(String cmd) {
     Completer com = new Completer();
     
+    // Get the data as a String, then turn it into a List.
     cmdStr(cmd).then((String dataStr) {
       List<String> data = new List<String>();
+      
+      // For each line in the string:
       for(String line in dataStr.split("\n")) {
+        // It will be separated into key/value pairs.
         List<String> kv = line.split(":");
+        
+        // We care about the value in this case, so add it to our list.
         if(kv.length > 1)
           data.add(kv[1].trim());
       }
       
+      // Finished.
       com.complete(data);
     });
     
@@ -77,11 +90,16 @@ class MPDTalker {
   Future<Map<String, String>> cmdMap(String cmd) {
     Completer com = new Completer();
     
+    // Get the data as a String, then turn it into a Map.
     cmdStr(cmd).then((String dataStr) {
       Map<String, String> data = new Map<String, String>();
+      
+      // For every line in the String:
       for(String line in dataStr.split("\n")) {
+        // Split it into key value pairs like a map.
         List<String> kv = line.split(":");
         if(kv.length > 1) {
+          // Add our keys/values to the map.
           data[kv[0].trim()] = kv[1].trim();
         }
       }
@@ -100,15 +118,20 @@ class MPDTalker {
   Future<List<Map<String, String>>> cmdListMap(String cmd, {String newKey: "file"}) {
     Completer com = new Completer();
     
+    // Get the data as a String, then turn it into a List of Maps.
     cmdStr(cmd).then((String dataStr) {
       List<Map<String, String>> data = new List<Map<String, String>>();
       
+      // For every line:
       for(String line in dataStr.split("\n")) {
+        // Split it into keys/values.
         List<String> kv = line.split(":");
         if(kv.length > 1) {
+          // If our key is our new key, create a new Map in our list.
           if(kv[0].trim() == newKey) {
             data.add(new Map<String, String>());
           }
+          // If we have Maps in our list, add the new item to the last Map.
           if(data.isNotEmpty) {
             data.last[kv[0].trim()] = kv[1].trim();
           }

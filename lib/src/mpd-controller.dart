@@ -25,8 +25,11 @@ class MPDController extends MPDTalker {
    * List<String> args: Arguments to pass to MPD. Default: ["--no-daemon", "mpd.conf"].
    */
   Future<Process> startMPD({String mpdCommand: "mpd", String mpdPath: "mpd", List<String> args}) {
+    // Set args default here because it cannot be modifiable in the parameters list. 
     if(args == null)
       args = ["--no-daemon", "mpd.conf"];
+    
+    // Start MPD.
     return Process.start(mpdCommand, args, workingDirectory: mpdPath);
   }
   
@@ -156,11 +159,13 @@ class MPDController extends MPDTalker {
    * Sets the replay gain mode.
    */
   Future<String> replayGainMode(String mode) {
+    // Be sure the mode is set to an OK mode.
     if(mode != REPLAY_GAIN_MODE_ALBUM || mode != REPLAY_GAIN_MODE_AUTO || 
-        mode != REPLAY_GAIN_MODE_OFF || mode != REPLAY_GAIN_MODE_TRACK)
+        mode != REPLAY_GAIN_MODE_OFF || mode != REPLAY_GAIN_MODE_TRACK) {
       throw new MPDError("Invalid replay gain mode. Valid modes are: "
           "$REPLAY_GAIN_MODE_ALBUM, $REPLAY_GAIN_MODE_AUTO, "
           "$REPLAY_GAIN_MODE_OFF, $REPLAY_GAIN_MODE_TRACK");
+    }
     else
       return cmdStr('replay_gain_mode $mode');
       
