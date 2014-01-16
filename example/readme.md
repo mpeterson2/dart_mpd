@@ -14,7 +14,7 @@
 3. Create all these files (they can be blank).
 4. Run the examples (MPD may need to update it's database).
 
-## The examples
+## The Examples
 
 ### arbitrary-commands.dart
 
