@@ -11,10 +11,11 @@
 	- `pid_file`
 	- `state_file`
 	- `sticker_file`
-3. Create all these files (they can be blank).
-4. Run the examples (MPD may need to update it's database).
+3. Create all these files/folders (they can be blank).
+4. Put some music in the `music_directory`.
+5. Run the examples (MPD may need to update it's database).
 
-## The Examples
+## The Edxamples
 
 ### arbitrary-commands.dart
 
