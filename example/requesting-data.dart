@@ -1,6 +1,6 @@
 import "dart:async";
 import "dart:io";
-import "package:dart_mpd/mpd.dart";
+import "package:mpd/mpd.dart";
 
 void main() {
   MPDController controller = new MPDController();

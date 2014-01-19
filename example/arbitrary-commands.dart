@@ -1,4 +1,4 @@
-import "package:dart_mpd/mpd.dart";
+import "package:mpd/mpd.dart";
 
 import "dart:io";
 
