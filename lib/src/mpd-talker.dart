@@ -34,13 +34,19 @@ class MPDTalker {
           data += line;
           
           // Check if MPD is done sending data.
-          if(_atEnd(line)) {
-            socket.close();
+          try {
+            if(_atEnd(line)) {
+              socket.close();
+            }
+          } catch(error, stacktrace) {
+            com.completeError(error, stacktrace);
           }
         },
         onDone: () {
-          // Finish the future.
-          com.complete(data);
+          // Finish the future if there hasn't been an error.
+          if(!com.isCompleted) {
+            com.complete(data);
+          }
         });
       });
     
@@ -51,10 +57,18 @@ class MPDTalker {
    * Check if MPD is done sending data.
    */
   bool _atEnd(String str) {
-    return str.endsWith("OK\n") ||
-        // TODO This should work but it doesn't...
-        //str.contains(new RegExp("ACK \[[0-9]?([0-9])@[0-9]?([0-9])\]"));
-        str.contains("ACK [");
+
+    //str.contains(new RegExp("ACK \[[0-9]?([0-9])@[0-9]?([0-9])\]"));
+    if(str.contains("ACK [")) {
+      for(String line in str.split("\n")) {
+        if(line.startsWith("ACK [")) {
+          throw new MPDError(line);
+          break;
+        }
+      }
+    }
+    
+    return str.endsWith("OK\n");
   }
   
   /**

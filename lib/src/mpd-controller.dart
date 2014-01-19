@@ -133,10 +133,7 @@ class MPDController extends MPDTalker {
    * Sets the volume.
    */
   Future<String> setVol(int vol) {
-    if(vol > 100 || vol < 0)
-      throw new MPDError('Invalid volume range. The range is 0 - 100.');
-    else
-      return cmdStr('setvol $vol');
+    return cmdStr('setvol $vol');
   }
   
   /**
@@ -149,26 +146,12 @@ class MPDController extends MPDTalker {
     else
       return cmdStr('single 0');
   }
-
-  static final String REPLAY_GAIN_MODE_ALBUM = "album";
-  static final String REPLAY_GAIN_MODE_AUTO = "auto";
-  static final String REPLAY_GAIN_MODE_OFF = "off";
-  static final String REPLAY_GAIN_MODE_TRACK = "track";
   
   /**
    * Sets the replay gain mode.
    */
   Future<String> replayGainMode(String mode) {
-    // Be sure the mode is set to an OK mode.
-    if(mode != REPLAY_GAIN_MODE_ALBUM || mode != REPLAY_GAIN_MODE_AUTO || 
-        mode != REPLAY_GAIN_MODE_OFF || mode != REPLAY_GAIN_MODE_TRACK) {
-      throw new MPDError("Invalid replay gain mode. Valid modes are: "
-          "$REPLAY_GAIN_MODE_ALBUM, $REPLAY_GAIN_MODE_AUTO, "
-          "$REPLAY_GAIN_MODE_OFF, $REPLAY_GAIN_MODE_TRACK");
-    }
-    else
-      return cmdStr('replay_gain_mode $mode');
-      
+    return cmdStr('replay_gain_mode $mode');
   }
   
   /**
@@ -283,12 +266,8 @@ class MPDController extends MPDTalker {
    * Deletes a song from the playlist.
    */
   Future<String> delete(int start, {int end}) {
-    if(end != null) {
-      if(end < start)
-        throw new MPDError('Invalid input. start must be less than end.');
-      else
-        return cmdStr('delete $start $end');
-    }
+    if(end != null)
+      return cmdStr('delete $start $end');
     else
       return cmdStr('delete $start');
   }
@@ -304,12 +283,8 @@ class MPDController extends MPDTalker {
    * Moves a song in the playlist.
    */
   Future<String> move(int start, int to, {int end}) {
-    if(end != null) {
-      if(end < start)
-        throw new MPDError('Invalid input. start must be less than end.');
-      else
-        return cmdStr('move $start $end $to');
-    }
+    if(end != null)
+      return cmdStr('move $start $end $to');
     else
       return cmdStr('move $start $to');
   }
@@ -342,12 +317,8 @@ class MPDController extends MPDTalker {
    * Displays a list of all songs in the playlist.
    */
   Future<List<Map<String, String>>> playlistInfo({int start, int end}) {
-    if(start != null && end != null) {
-      if(end < start)
-        throw new MPDError('Invalid input. start must be less than end.');
-      else
-        return cmdListMap('playlistinfo $start $end');
-    }
+    if(start != null && end != null)
+      return cmdListMap('playlistinfo $start $end');
     else if(start != null)
       return cmdListMap('playlistinfo $start');
     else
@@ -358,12 +329,8 @@ class MPDController extends MPDTalker {
    * Searches case-sensitively for partial matches in the current playlist.
    */
   Future<List<Map<String, String>>> playlistSearch(int start, {int end}) {
-    if(end != null) {
-      if(end < start)
-        throw new MPDError('Invalid input. start must be less than end.');
-      else
-        return cmdListMap('playlistsearch $start $end');
-    }
+    if(end != null)
+      return cmdListMap('playlistsearch $start $end');
     else
       return cmdListMap('playlistsearch $start');
   }
@@ -389,11 +356,7 @@ class MPDController extends MPDTalker {
    * A priority is an integer between 0 and 255. The default priority of new songs is 0.
    */
   Future<String> prio(int priority, int start, {int end}) {
-    if(priority < 0 || priority > 255)
-      throw new MPDError('Invalid priority range. The range is 0 - 255.');
-    else if(end < start)
-      throw new MPDError('Invalid input. start must be less than end.');
-    else if(end != null)
+    if(end != null)
       return cmdStr('prio $priority $start $end');
     else
       return cmdStr('prio $priority $start');
@@ -406,22 +369,15 @@ class MPDController extends MPDTalker {
    * A priority is an integer between 0 and 255. The default priority of new songs is 0.
    */
   Future<String> prioID(int priority, int songID) {
-    if(priority < 0 || priority > 255)
-      throw new MPDError('Invalid priority range. The range is 0 - 255.');
-    else
-      return cmdStr('prioID $priority $songID');
+    return cmdStr('prioID $priority $songID');
   }
   
   /**
    * Shuffles the current playlist.
    */
   Future<String> shuffle({int start, int end}) {
-    if(start != null && end != null) {
-      if(end < start)
-        throw new MPDError('Invalid input. start must be less than end.');
-      else
-        return cmdStr('shuffle $start $end');
-    }
+    if(start != null && end != null)
+      return cmdStr('shuffle $start $end');
     else if(start != null)
       return cmdStr('shuffle $start');
     else
@@ -485,12 +441,8 @@ class MPDController extends MPDTalker {
    * Loads the playlist into the current queue.
    */
   Future<String> load(String name, {int start, int end}) {
-    if(start != null && end != null) {
-      if(end < start)
-        throw new MPDError('Invalid input. start must be less than end.');
-      else
-        return cmdStr('load "$name" $start $end');
-    }
+    if(start != null && end != null)
+      return cmdStr('load "$name" $start $end');
     else if(start != null)
       return cmdStr('load "$name" $start');
     else
@@ -575,12 +527,8 @@ class MPDController extends MPDTalker {
    * Lists all tags of a specified type.
    */
   Future<List<String>> list(String type, {String artist}) {
-    if(artist != null) {
-      if(type.toLowerCase() == "album")
-        return cmdList('list "$type" "$artist"');
-      else
-        throw new MPDError('list should be "Album" for 3 arguments');
-    }
+    if(artist != null)
+      return cmdList('list "$type" "$artist"');
     else
       return cmdList('list $type');
   }

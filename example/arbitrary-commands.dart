@@ -24,6 +24,9 @@ void main() {
     controller.cmdStr(new String.fromCharCodes(ints).trim())
       .then((String response) {
         print(response);
+      },
+      onError: (error) {
+        print(error);
       });
   });
 }
