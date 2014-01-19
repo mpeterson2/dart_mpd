@@ -48,6 +48,10 @@ void main() {
 
 More examples can be found [here](https://github.com/mpeterson2/dart_mpd/tree/master/example).
 
+## Documentation
+
+Every method has doc comments, but if you want/need more information, go to MPD's [documentation](http://www.musicpd.org/doc/protocol/ch03.html) page.
+
 ## Contributing
 
 If you would like to contribute, feel free to fork it and send me a pull request. Everything is pretty well documented.
