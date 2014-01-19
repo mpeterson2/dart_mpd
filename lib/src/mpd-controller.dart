@@ -40,8 +40,8 @@ class MPDController extends MPDTalker {
   /**
    * Clears the current error message in status.
    */
-  Future<String> clearError() {
-    return cmdStr('clearerror');
+  Future clearError() {
+    return cmd('clearerror');
   }
   /**
    * Displays the song info of the current song.
@@ -78,80 +78,80 @@ class MPDController extends MPDTalker {
   /**
    * When consume is activated, each song played is removed from playlist.
    */
-  Future<String> consume(bool consume) {
+  Future consume(bool consume) {
     if(consume)
-      return cmdStr('consume 1');
+      return cmd('consume 1');
     else
-      return cmdStr('consume 0');
+      return cmd('consume 0');
   }
   
   /**
    * Sets crossfading between songs.
    */
-  Future<String> crossFade(int seconds) {
-    return cmdStr('crossfade $seconds');
+  Future crossFade(int seconds) {
+    return cmd('crossfade $seconds');
   }
   
   /**
    * Sets the threshold at which songs will be overlapped.
    */  
-  Future<String> mixRampDB(int decibels) {
-    return cmdStr('mixrampdb $decibels');
+  Future mixRampDB(int decibels) {
+    return cmd('mixrampdb $decibels');
   }
   
   /**
    * Additional time subtracted from the overlap calculated by mixrampdb.
    */
-  Future<String> mixRampDelay({int seconds, bool enabled: true}) {
+  Future mixRampDelay({int seconds, bool enabled: true}) {
     if(enabled)
-      return cmdStr('mixrampdelay $seconds');
+      return cmd('mixrampdelay $seconds');
     else
-      return cmdStr('mixrampdelay nan');
+      return cmd('mixrampdelay nan');
   }
   
   /**
    * Sets random state.
    */
-  Future<String> random(bool enabled) {
+  Future random(bool enabled) {
     if(enabled)
-      return cmdStr('random 1');
+      return cmd('random 1');
     else
-      return cmdStr('random 0');
+      return cmd('random 0');
   }
   
   /**
    * Sets repeat state.
    */
-  Future<String> repeat(bool enabled) {
+  Future repeat(bool enabled) {
     if (enabled)
-      return cmdStr('repeat 1');
+      return cmd('repeat 1');
     else
-      return cmdStr('repeat 0');
+      return cmd('repeat 0');
   }
   
   /**
    * Sets the volume.
    */
-  Future<String> setVol(int vol) {
-    return cmdStr('setvol $vol');
+  Future setVol(int vol) {
+    return cmd('setvol $vol');
   }
   
   /**
    * When single is activated, playback is stopped after current song,
    * or song is repeated if the 'repeat' mode is enabled.
    */
-  Future<String> single(bool enable) {
+  Future single(bool enable) {
     if(enable)
-      return cmdStr('single 1');
+      return cmd('single 1');
     else
-      return cmdStr('single 0');
+      return cmd('single 0');
   }
   
   /**
    * Sets the replay gain mode.
    */
-  Future<String> replayGainMode(String mode) {
-    return cmdStr('replay_gain_mode $mode');
+  Future replayGainMode(String mode) {
+    return cmd('replay_gain_mode $mode');
   }
   
   /**
@@ -168,70 +168,70 @@ class MPDController extends MPDTalker {
   /**
    * Plays next song in the playlist.
    */
-  Future<String> next() {
-    return cmdStr('next');
+  Future next() {
+    return cmd('next');
   }
   
   /**
    * Toggles pause/resumes playing.
    */
-  Future<String> pause({bool enabled: true}) {
+  Future pause({bool enabled: true}) {
     if(enabled)
-      return cmdStr('pause 1');
+      return cmd('pause 1');
     else
-      return cmdStr('pause 0');
+      return cmd('pause 0');
   }
   
   /**
    * Begins playing the playlist.
    */
-  Future<String> play({int songPos}) {
+  Future play({int songPos}) {
     if(songPos != null)
-      return cmdStr('play $songPos');
+      return cmd('play $songPos');
     else
-      return cmdStr('play');
+      return cmd('play');
   }
   
   /**
    * Begins playing the playlist.
    */
-  Future<String> playID(int songID) {
-    return cmdStr('playid $songID');
+  Future playID(int songID) {
+    return cmd('playid $songID');
   }
   
   /**
    * Plays previous song in the playlist.
    */
-  Future<String> previous() {
-    return cmdStr('previous');
+  Future previous() {
+    return cmd('previous');
   }
   
   /**
    * Seeks to the position time (in seconds) of entry songPos in the playlist
    */
-  Future<String> seek(int songPos, int time) {
-    return cmdStr('seek $songPos $time');
+  Future seek(int songPos, int time) {
+    return cmd('seek $songPos $time');
   }
   
   /**
    * Seeks to the position time (in seconds) of song songID.
    */
-  Future<String> seekID(int songID, int time) {
-    return cmdStr('seekid $songID $time');
+  Future seekID(int songID, int time) {
+    return cmd('seekid $songID $time');
   }
   
   /**
    * Seeks to the position time within the current song.
    */
-  Future<String> seekCur(int time) {
-    return cmdStr('seekcur $time');
+  Future seekCur(int time) {
+    return cmd('seekcur $time');
   }
   
   /**
    * Stops playing.
    */
-  Future<String> stop() {
-    return cmdStr('stop');
+  Future stop() {
+    return cmd('stop');
   }
   
   /*
@@ -258,42 +258,42 @@ class MPDController extends MPDTalker {
   /**
    * Clears the current playlist.
    */
-  Future<String> clear() {
-    return cmdStr('clear');
+  Future clear() {
+    return cmd('clear');
   }
   
   /**
    * Deletes a song from the playlist.
    */
-  Future<String> delete(int start, {int end}) {
+  Future delete(int start, {int end}) {
     if(end != null)
-      return cmdStr('delete $start $end');
+      return cmd('delete $start $end');
     else
-      return cmdStr('delete $start');
+      return cmd('delete $start');
   }
   
   /**
    * Deletes a song from the playlist.
    */
-  Future<String> deleteID(int songID) {
-    return cmdStr('deleteid $songID');
+  Future deleteID(int songID) {
+    return cmd('deleteid $songID');
   }
   
   /**
    * Moves a song in the playlist.
    */
-  Future<String> move(int start, int to, {int end}) {
+  Future move(int start, int to, {int end}) {
     if(end != null)
-      return cmdStr('move $start $end $to');
+      return cmd('move $start $end $to');
     else
-      return cmdStr('move $start $to');
+      return cmd('move $start $to');
   }
   
   /**
    * Moves a song in the playlist.
    */
-  Future<String> moveID(int songID, int to) {
-    return cmdStr('moveid $songID $to');
+  Future moveID(int songID, int to) {
+    return cmd('moveid $songID $to');
   }
   
   /**
@@ -355,11 +355,11 @@ class MPDController extends MPDTalker {
    * A higher priority means that it will be played first when "random" mode is enabled.
    * A priority is an integer between 0 and 255. The default priority of new songs is 0.
    */
-  Future<String> prio(int priority, int start, {int end}) {
+  Future prio(int priority, int start, {int end}) {
     if(end != null)
-      return cmdStr('prio $priority $start $end');
+      return cmd('prio $priority $start $end');
     else
-      return cmdStr('prio $priority $start');
+      return cmd('prio $priority $start');
   }
   
   /**
@@ -368,48 +368,48 @@ class MPDController extends MPDTalker {
    * A higher priority means that it will be played first when "random" mode is enabled.
    * A priority is an integer between 0 and 255. The default priority of new songs is 0.
    */
-  Future<String> prioID(int priority, int songID) {
-    return cmdStr('prioID $priority $songID');
+  Future prioID(int priority, int songID) {
+    return cmd('prioID $priority $songID');
   }
   
   /**
    * Shuffles the current playlist.
    */
-  Future<String> shuffle({int start, int end}) {
+  Future shuffle({int start, int end}) {
     if(start != null && end != null)
-      return cmdStr('shuffle $start $end');
+      return cmd('shuffle $start $end');
     else if(start != null)
-      return cmdStr('shuffle $start');
+      return cmd('shuffle $start');
     else
-      return cmdStr('shuffle');
+      return cmd('shuffle');
   }
   
   /**
    * Swaps the positions of two songs.
    */
-  Future<String> swap(int song1, int song2) {
-    return cmdStr('swap $song1 $song2');
+  Future swap(int song1, int song2) {
+    return cmd('swap $song1 $song2');
   }
   
   /**
    * Swaps the positions of two songs.
    */
-  Future<String> swapID(int songID1, int songID2) {
-    return cmdStr('swap $songID1 $songID2');    
+  Future swapID(int songID1, int songID2) {
+    return cmd('swap $songID1 $songID2');    
   }
   
   /**
    * Adds a tag to the specified song.
    */
-  Future<String> addTagID(int songID, String tag, String value) {
-    return cmdStr('addtagid $songID "$tag" "$value"');
+  Future addTagID(int songID, String tag, String value) {
+    return cmd('addtagid $songID "$tag" "$value"');
   }
   
   /**
    * Removes tags from the specified song.
    */
-  Future<String> clearTagID(int songID, String tag) {
-    return cmdStr('cleartagid $songID "$tag"');
+  Future clearTagID(int songID, String tag) {
+    return cmd('cleartagid $songID "$tag"');
   }
   
   /*
@@ -440,62 +440,62 @@ class MPDController extends MPDTalker {
   /**
    * Loads the playlist into the current queue.
    */
-  Future<String> load(String name, {int start, int end}) {
+  Future load(String name, {int start, int end}) {
     if(start != null && end != null)
-      return cmdStr('load "$name" $start $end');
+      return cmd('load "$name" $start $end');
     else if(start != null)
-      return cmdStr('load "$name" $start');
+      return cmd('load "$name" $start');
     else
-      return cmdStr('load');
+      return cmd('load');
   }
   
   /**
    * Adds URI to a playlist
    */
-  Future<String> playlistAdd(String name, String uri) {
-    return cmdStr('playlistadd "$name" "$uri"');
+  Future playlistAdd(String name, String uri) {
+    return cmd('playlistadd "$name" "$uri"');
   }
   
   /**
    * Clears a playlist.
    */
-  Future<String> playlistClear(String name) {
-    return cmdStr('playlistclear "$name"');
+  Future playlistClear(String name) {
+    return cmd('playlistclear "$name"');
   }
   
   /**
    * Deletes a song from a playlist.
    */
-  Future<String> playlistDelete(String name, int songPos) {
-    return cmdStr('playlistdelete "$name" $songPos');
+  Future playlistDelete(String name, int songPos) {
+    return cmd('playlistdelete "$name" $songPos');
   }
   
   /**
    * Moves a song in a playlist to a new position.
    */
-  Future<String> playlistMove(String name, int songID, int songPos) {
-    return cmdStr('playlistmove "$name" $songID $songPos');
+  Future playlistMove(String name, int songID, int songPos) {
+    return cmd('playlistmove "$name" $songID $songPos');
   }
   
   /**
    * Renames a playlist.
    */
-  Future<String> playlistRename(String name, String newName) {
-    return cmdStr('rename "$name" "$newName"');
+  Future playlistRename(String name, String newName) {
+    return cmd('rename "$name" "$newName"');
   }
   
   /**
    * Deletes a playlist.
    */
-  Future<String> playlistRemove(String name) {
-    return cmdStr('rm "$name"');
+  Future playlistRemove(String name) {
+    return cmd('rm "$name"');
   }
   
   /**
    * Saves a playlist.
    */
-  Future<String> playlistSave(String name) {
-    return cmdStr('save $name');
+  Future playlistSave(String name) {
+    return cmd('save $name');
   }
   
   /*
@@ -519,8 +519,8 @@ class MPDController extends MPDTalker {
   /**
    * Finds a song in the database and adds it to the current playlist.
    */
-  Future<String> findAdd(String request) {
-    return cmdStr('findadd $request');
+  Future findAdd(String request) {
+    return cmd('findadd $request');
   }
   
   /**
@@ -580,34 +580,34 @@ class MPDController extends MPDTalker {
   /**
    * Searches for and adds a song to the current playlist.
    */
-  Future<String> searchAdd(String request) {
-    return cmdStr('searchadd $request');
+  Future searchAdd(String request) {
+    return cmd('searchadd $request');
   }
   
   /**
    * Searches for and adds a song to the specified playlist.
    */
-  Future<String> searchAddPlaylist(String name, String request) {
-    return cmdStr('searchaddpl "$name" $request');
+  Future searchAddPlaylist(String name, String request) {
+    return cmd('searchaddpl "$name" $request');
   }
   
   /**
    * Updates the database excluding unmodified files.
    */
-  Future<String> update({String uri}) {
+  Future update({String uri}) {
     if(uri != null)
-      return cmdStr('update "$uri"');
+      return cmd('update "$uri"');
     else
-      return cmdStr('update');
+      return cmd('update');
   }
   
   /**
    * Updates the database including unmodified files.
    */
-  Future<String> rescan({String uri}) {
+  Future rescan({String uri}) {
     if(uri != null)
-      return cmdStr('rescan "$uri"');
+      return cmd('rescan "$uri"');
     else
-      return cmdStr('rescan');
+      return cmd('rescan');
   }
 }

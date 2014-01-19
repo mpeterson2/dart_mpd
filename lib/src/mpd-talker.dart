@@ -71,6 +71,15 @@ class MPDTalker {
     return str.endsWith("OK\n");
   }
   
+  Future cmd(String str) {
+    Completer com = new Completer();
+    cmdStr(str).then((String data) {
+      com.complete();
+    });
+    
+    return com.future;
+  }
+  
   /**
    * Send a request to MPD and get the output as a List of Strings.
    */
