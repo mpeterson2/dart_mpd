@@ -3,12 +3,12 @@ packages
 .project
 pubspec.lock
 
-music
-playlists
-database.db
-log
-mpd.conf
-pid
-state
-sticker.sql
+example/mpd/music
+example/mpd/playlists
+example/mpd/database.db
+example/mpd/log
+example/mpd/mpd.conf
+example/mpd/pid
+example/mpd/state
+example/mpd/sticker.sql
 
