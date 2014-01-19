@@ -17,7 +17,9 @@ void main() {
   });
 }
 
-
+/**
+ * Prints all the artists in MPD's database.
+ */
 Future<List<String>> printArtists(MPDController controller) {
   // controller.list("artist") returns a future with all the artists in a list.
   return controller.list("artist")
@@ -28,6 +30,9 @@ Future<List<String>> printArtists(MPDController controller) {
       });  
 }
 
+/**
+ * Prints all the albums in MPD's database.
+ */
 Future<List<String>> printAlbums(MPDController controller) {
   // controller.list("album") returns a future with all the albums in a list.
   return controller.list("album")
