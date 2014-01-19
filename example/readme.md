@@ -1,6 +1,6 @@
 # Examples
 
-## Instructions
+## Getting Started
 
 1. Copy the `mpd.conf.example` file to `mpd.conf`.
 2. Open `mpd.conf` and update all the file urls to point to the `example/mpd` folder.
@@ -16,7 +16,7 @@
 4. Put some music in the `music_directory`.
 5. Run the examples (MPD may need to update it's database).
 
-## The Edxamples
+## The Examples
 
 ### arbitrary-commands.dart
 
