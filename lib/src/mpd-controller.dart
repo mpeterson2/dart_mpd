@@ -434,7 +434,7 @@ class MPDController extends MPDTalker {
    * Prints a list of the playlist directory.
    */
   Future<List<Map<String, String>>> listPlaylists() {
-    return cmdListMap('listplaylists', newKey: 'playlist');
+    return cmdListMap('listplaylists', newKeys: ['playlist']);
   }
   
   /**
@@ -548,9 +548,9 @@ class MPDController extends MPDTalker {
    */
   Future<List<Map<String, String>>> listAllInfo({String uri}) {
     if(uri != null)
-      return cmdListMap('listallinfo "$uri"');
+      return cmdListMap('listallinfo "$uri"', newKeys: ["file", "directory"]);
     else
-      return cmdListMap('listallinfo');
+      return cmdListMap('listallinfo', newKeys: ["file", "directory"]);
   }
   
   /**
@@ -558,9 +558,9 @@ class MPDController extends MPDTalker {
    */
   Future<List<Map<String, String>>> lsInfo({String uri}) {
     if(uri != null)
-      return cmdListMap('lsinfo "$uri"');
+      return cmdListMap('lsinfo "$uri"', newKeys: ["directory"]);
     else
-      return cmdListMap('lsinfo');
+      return cmdListMap('lsinfo', newKeys: ["directory"]);
   }
   
   /**

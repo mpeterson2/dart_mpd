@@ -138,8 +138,12 @@ class MPDTalker {
    * 
    * String newKey: The key that defines a new item in the list. 
    */
-  Future<List<Map<String, String>>> cmdListMap(String cmd, {String newKey: "file"}) {
+  Future<List<Map<String, String>>> cmdListMap(String cmd, {List<String> newKeys}) {
     Completer com = new Completer();
+    
+    // Set newKey's default to ["file"].
+    if(newKeys == null)
+      newKeys = ["file"];
     
     // Get the data as a String, then turn it into a List of Maps.
     cmdStr(cmd).then((String dataStr) {
@@ -150,9 +154,12 @@ class MPDTalker {
         // Split it into keys/values.
         List<String> kv = line.split(":");
         if(kv.length > 1) {
-          // If our key is our new key, create a new Map in our list.
-          if(kv[0].trim() == newKey) {
-            data.add(new Map<String, String>());
+          // If the key is a new key, create a new Map in our list.
+          for(String key in newKeys) {
+            if(kv[0].trim() == key) {
+              data.add(new Map<String, String>());
+              break;
+            }
           }
           // If we have Maps in our list, add the new item to the last Map.
           if(data.isNotEmpty) {
