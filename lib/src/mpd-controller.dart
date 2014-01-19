@@ -267,7 +267,7 @@ class MPDController extends MPDTalker {
    */
   Future delete(int start, {int end}) {
     if(end != null)
-      return cmd('delete $start $end');
+      return cmd('delete $start:$end');
     else
       return cmd('delete $start');
   }
@@ -284,7 +284,7 @@ class MPDController extends MPDTalker {
    */
   Future move(int start, int to, {int end}) {
     if(end != null)
-      return cmd('move $start $end $to');
+      return cmd('move $start:$end $to');
     else
       return cmd('move $start $to');
   }
@@ -318,7 +318,7 @@ class MPDController extends MPDTalker {
    */
   Future<List<Map<String, String>>> playlistInfo({int start, int end}) {
     if(start != null && end != null)
-      return cmdListMap('playlistinfo $start $end');
+      return cmdListMap('playlistinfo $start:$end');
     else if(start != null)
       return cmdListMap('playlistinfo $start');
     else
@@ -330,7 +330,7 @@ class MPDController extends MPDTalker {
    */
   Future<List<Map<String, String>>> playlistSearch(int start, {int end}) {
     if(end != null)
-      return cmdListMap('playlistsearch $start $end');
+      return cmdListMap('playlistsearch $start:$end');
     else
       return cmdListMap('playlistsearch $start');
   }
@@ -357,7 +357,7 @@ class MPDController extends MPDTalker {
    */
   Future prio(int priority, int start, {int end}) {
     if(end != null)
-      return cmd('prio $priority $start $end');
+      return cmd('prio $priority $start:$end');
     else
       return cmd('prio $priority $start');
   }
@@ -377,7 +377,7 @@ class MPDController extends MPDTalker {
    */
   Future shuffle({int start, int end}) {
     if(start != null && end != null)
-      return cmd('shuffle $start $end');
+      return cmd('shuffle $start:$end');
     else if(start != null)
       return cmd('shuffle $start');
     else
@@ -442,7 +442,7 @@ class MPDController extends MPDTalker {
    */
   Future load(String name, {int start, int end}) {
     if(start != null && end != null)
-      return cmd('load "$name" $start $end');
+      return cmd('load "$name" $start:$end');
     else if(start != null)
       return cmd('load "$name" $start');
     else
