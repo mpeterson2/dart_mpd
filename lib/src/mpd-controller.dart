@@ -265,8 +265,11 @@ class MPDController extends MPDTalker {
   /**
    * Adds a song to the playlist and returns the song id.
    */
-  Future<Map<String, String>> addID(String uri, int pos) {
-    return cmdMap('addid, "$uri" $pos');
+  Future<Map<String, String>> addID(int songID, {int pos}) {
+    if(pos != null)
+      return cmdMap('addid $songID $pos');
+    else
+      return cmdMap('addid $songID');
   }
   
   /**
