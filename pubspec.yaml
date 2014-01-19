@@ -1,5 +1,5 @@
 name: mpd
 author: Michael Peterson <mpeterson418@gmail.com>
-version: 0.1.0
+version: 0.2.0
 homepage: https://github.com/mpeterson2/dart_mpd
 description: A MPD wrapper for Dart.
