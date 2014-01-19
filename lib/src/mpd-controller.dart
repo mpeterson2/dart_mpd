@@ -433,8 +433,8 @@ class MPDController extends MPDTalker {
   /**
    * Prints a list of the playlist directory.
    */
-  Future<List<String>> listPlaylists() {
-    return cmdList('listplaylists');
+  Future<List<Map<String, String>>> listPlaylists() {
+    return cmdListMap('listplaylists', newKey: 'playlist');
   }
   
   /**
