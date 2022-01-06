@@ -24,11 +24,7 @@ class MPDController extends MPDTalker {
    * String mpdPath: The path to the folder where your mpd.conf file is located. Default: "mpd".
    * List<String> args: Arguments to pass to MPD. Default: ["--no-daemon", "mpd.conf"].
    */
-  Future<Process> startMPD({String mpdCommand: "mpd", String mpdPath: "mpd", List<String> args}) {
-    // Set args default here because it cannot be modifiable in the parameters list. 
-    if(args == null)
-      args = ["--no-daemon", "mpd.conf"];
-    
+  Future<Process> startMPD({String mpdCommand: "mpd", String mpdPath: "mpd", List<String> args = const ["--no-daemon", "mpd.conf"]}) {
     // Start MPD.
     return Process.start(mpdCommand, args, workingDirectory: mpdPath);
   }
@@ -53,7 +49,7 @@ class MPDController extends MPDTalker {
    * Waits until there is a noteworthy change in one or more of MPD's subsystems. 
    * As soon as there is one, it response with it.
    */
-  Future<Map<String, String>> idle({String subsystems}) {
+  Future<Map<String, String>> idle(String subsystems) {
     return cmdMap('idle $subsystems');
   }
   
@@ -102,7 +98,7 @@ class MPDController extends MPDTalker {
   /**
    * Additional time subtracted from the overlap calculated by mixrampdb.
    */
-  Future mixRampDelay({int seconds, bool enabled: true}) {
+  Future mixRampDelay({int seconds = 0, bool enabled: true}) {
     if(enabled)
       return cmd('mixrampdelay $seconds');
     else
@@ -185,7 +181,7 @@ class MPDController extends MPDTalker {
   /**
    * Begins playing the playlist.
    */
-  Future play({int songPos}) {
+  Future play({int? songPos}) {
     if(songPos != null)
       return cmd('play $songPos');
     else
@@ -248,7 +244,7 @@ class MPDController extends MPDTalker {
   /**
    * Adds a song to the playlist and returns the song id.
    */
-  Future<Map<String, String>> addID(int songID, {int pos}) {
+  Future<Map<String, String>> addID(int songID, {int? pos}) {
     if(pos != null)
       return cmdMap('addid $songID $pos');
     else
@@ -265,7 +261,7 @@ class MPDController extends MPDTalker {
   /**
    * Deletes a song from the playlist.
    */
-  Future delete(int start, {int end}) {
+  Future delete(int start, {int? end}) {
     if(end != null)
       return cmd('delete $start:$end');
     else
@@ -282,7 +278,7 @@ class MPDController extends MPDTalker {
   /**
    * Moves a song in the playlist.
    */
-  Future move(int start, int to, {int end}) {
+  Future move(int start, int to, {int? end}) {
     if(end != null)
       return cmd('move $start:$end $to');
     else
@@ -306,7 +302,7 @@ class MPDController extends MPDTalker {
   /**
    * Displays a list of songs in the playlist.
    */
-  Future<List<Map<String, String>>> playlistID({int songID}) {
+  Future<List<Map<String, String>>> playlistID({int? songID}) {
     if(songID != null)
       return cmdListMap('playlistid $songID');
     else
@@ -316,7 +312,7 @@ class MPDController extends MPDTalker {
   /**
    * Displays a list of all songs in the playlist.
    */
-  Future<List<Map<String, String>>> playlistInfo({int start, int end}) {
+  Future<List<Map<String, String>>> playlistInfo({int? start, int? end}) {
     if(start != null && end != null)
       return cmdListMap('playlistinfo $start:$end');
     else if(start != null)
@@ -328,7 +324,7 @@ class MPDController extends MPDTalker {
   /**
    * Searches case-sensitively for partial matches in the current playlist.
    */
-  Future<List<Map<String, String>>> playlistSearch(int start, {int end}) {
+  Future<List<Map<String, String>>> playlistSearch(int start, {int? end}) {
     if(end != null)
       return cmdListMap('playlistsearch $start:$end');
     else
@@ -355,7 +351,7 @@ class MPDController extends MPDTalker {
    * A higher priority means that it will be played first when "random" mode is enabled.
    * A priority is an integer between 0 and 255. The default priority of new songs is 0.
    */
-  Future prio(int priority, int start, {int end}) {
+  Future prio(int priority, int start, {int? end}) {
     if(end != null)
       return cmd('prio $priority $start:$end');
     else
@@ -375,7 +371,7 @@ class MPDController extends MPDTalker {
   /**
    * Shuffles the current playlist.
    */
-  Future shuffle({int start, int end}) {
+  Future shuffle({int? start, int? end}) {
     if(start != null && end != null)
       return cmd('shuffle $start:$end');
     else if(start != null)
@@ -440,7 +436,7 @@ class MPDController extends MPDTalker {
   /**
    * Loads the playlist into the current queue.
    */
-  Future load(String name, {int start, int end}) {
+  Future load(String name, {int? start, int? end}) {
     if(start != null && end != null)
       return cmd('load "$name" $start:$end');
     else if(start != null)
@@ -526,7 +522,7 @@ class MPDController extends MPDTalker {
   /**
    * Lists all tags of a specified type.
    */
-  Future<List<String>> list(String type, {String artist}) {
+  Future<List<String>> list(String type, {String? artist}) {
     if(artist != null)
       return cmdList('list "$type" "$artist"');
     else
@@ -536,7 +532,7 @@ class MPDController extends MPDTalker {
   /**
    * Lists all songs and directories in uri.
    */
-  Future<List<String>> listAll({String uri}) {
+  Future<List<String>> listAll({String? uri}) {
     if(uri != null)
       return cmdList('listall "$uri"');
     else
@@ -546,7 +542,7 @@ class MPDController extends MPDTalker {
   /**
    * Lists all songs and directories in uri with metadata.
    */
-  Future<List<Map<String, String>>> listAllInfo({String uri}) {
+  Future<List<Map<String, String>>> listAllInfo({String? uri}) {
     if(uri != null)
       return cmdListMap('listallinfo "$uri"', newKeys: ["file", "directory"]);
     else
@@ -556,7 +552,7 @@ class MPDController extends MPDTalker {
   /**
    * Lists the contents of the directory URI.
    */
-  Future<List<Map<String, String>>> lsInfo({String uri}) {
+  Future<List<Map<String, String>>> lsInfo({String? uri}) {
     if(uri != null)
       return cmdListMap('lsinfo "$uri"', newKeys: ["directory"]);
     else
@@ -594,7 +590,7 @@ class MPDController extends MPDTalker {
   /**
    * Updates the database excluding unmodified files.
    */
-  Future update({String uri}) {
+  Future update({String? uri}) {
     if(uri != null)
       return cmd('update "$uri"');
     else
@@ -604,7 +600,7 @@ class MPDController extends MPDTalker {
   /**
    * Updates the database including unmodified files.
    */
-  Future rescan({String uri}) {
+  Future rescan({String? uri}) {
     if(uri != null)
       return cmd('rescan "$uri"');
     else
