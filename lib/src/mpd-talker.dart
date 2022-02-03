@@ -9,7 +9,7 @@ part of MPD;
  * For documentation on MPD commands, visit the [MPD Documentation](http://www.musicpd.org/doc/protocol/ch03.html).
  */
 class MPDTalker {
-  String host;
+  dynamic host;
   int port;
   
   MPDTalker({this.host: "localhost", this.port: 6600});
