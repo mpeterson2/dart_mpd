@@ -9,7 +9,7 @@ part of MPD;
  * For documentation on MPD commands, visit the [MPD Documentation](http://www.musicpd.org/doc/protocol/ch03.html).
  */
 class MPDTalker {
-  String host;
+  dynamic host;
   int port;
   
   MPDTalker({this.host: "localhost", this.port: 6600});
@@ -63,7 +63,6 @@ class MPDTalker {
       for(String line in str.split("\n")) {
         if(line.startsWith("ACK [")) {
           throw new MPDError(line);
-          break;
         }
       }
     }
@@ -84,11 +83,11 @@ class MPDTalker {
    * Send a request to MPD and get the output as a List of Strings.
    */
   Future<List<String>> cmdList(String cmd) {
-    Completer com = new Completer();
+    Completer<List<String>> com = new Completer();
     
     // Get the data as a String, then turn it into a List.
     cmdStr(cmd).then((String dataStr) {
-      List<String> data = new List<String>();
+      List<String> data = <String>[];
       
       // For each line in the string:
       for(String line in dataStr.split("\n")) {
@@ -111,7 +110,7 @@ class MPDTalker {
    * Send a request to MPD and get the output as a Map of Strings keyed to Strings.
    */  
   Future<Map<String, String>> cmdMap(String cmd) {
-    Completer com = new Completer();
+    Completer<Map<String, String>> com = new Completer();
     
     // Get the data as a String, then turn it into a Map.
     cmdStr(cmd).then((String dataStr) {
@@ -138,16 +137,13 @@ class MPDTalker {
    * 
    * String newKey: The key that defines a new item in the list. 
    */
-  Future<List<Map<String, String>>> cmdListMap(String cmd, {List<String> newKeys}) {
-    Completer com = new Completer();
-    
-    // Set newKey's default to ["file"].
-    if(newKeys == null)
-      newKeys = ["file"];
+  Future<List<Map<String, String>>> cmdListMap(String cmd, {List<String> newKeys = const ["file"]}) {
+    Completer<List<Map<String, String>>> com = new Completer();
+
     
     // Get the data as a String, then turn it into a List of Maps.
     cmdStr(cmd).then((String dataStr) {
-      List<Map<String, String>> data = new List<Map<String, String>>();
+      List<Map<String, String>> data = <Map<String, String>>[];
       
       // For every line:
       for(String line in dataStr.split("\n")) {
@@ -167,6 +163,8 @@ class MPDTalker {
           }
         }
       }
+      com.complete(data);
     });
+    return com.future;
   }
 }
